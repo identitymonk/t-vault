@@ -24,17 +24,23 @@ alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a>
 
 # Table of Contents
 
-1. [Installation](#installation)
-    * [Installation Prerequisites](#installation-prerequisites)
-    * [How to install](#installation-steps)
-2. [Configuration](#t-vault-configuration)
-   * [Default Installation](#default-installation)
-   * [Configuration Options](#t-vault-configuration-options)
-3. [Install in Production](#install-in-production)
-   * [Setup](#setup)
-   * [High Availability](#high-availability)
-   * [Un-Sealing](#un-sealing)
-4. [License](#license)
+- [T-Vault](#t-vault)
+- [Table of Contents](#table-of-contents)
+- [Installation](#installation)
+  - [Installation on Linux](#installation-on-linux)
+    - [Installation-Prerequisites](#installation-prerequisites)
+    - [Installation Steps](#installation-steps)
+      - [Tar based installation](#tar-based-installation)
+      - [Docker container based installation](#docker-container-based-installation)
+    - [How to access T-Vault Services](#how-to-access-t-vault-services)
+- [T-Vault Configuration](#t-vault-configuration)
+  - [Default Installation](#default-installation)
+  - [T-Vault Configuration Options](#t-vault-configuration-options)
+- [Install in Production](#install-in-production)
+  - [Setup](#setup)
+  - [High Availability](#high-availability)
+  - [Un-sealing](#un-sealing)
+- [License](#license)
 
 
 # Installation
@@ -48,9 +54,10 @@ Below are the dependencies required to build T-Vault from source.
 * [JDK](http://www.oracle.com/technetwork/java/javase/downloads/index.html) - Required to compile/build java source code
 * [Maven](https://maven.apache.org) - Required to build/package
 * [Docker](https://www.docker.com/) - Required if docker based deployment is preferred
-* [Node](https://nodejs.org/en/) and build tools (sudo yum install gcc-c++ make, sudo yum groupinstall 'Development Tools', bzip2)
-* [Bower](https://bower.io/)
-* [Gulp](https://gulpjs.com/)
+* [Openssl](https://www.openssl.org/) - Required if self generating your certificates
+* [Node via npm](https://nodejs.org/en/) and build tools (sudo yum install gcc-c++ make, sudo yum groupinstall 'Development Tools', bzip2)
+* [Bower via npm](https://bower.io/)
+* [Gulp via npm](https://gulpjs.com/)
 
 
 ### Installation Steps
@@ -126,6 +133,12 @@ Storage Backends
 * File System
 * Dynamo DB
 ```
+
+Certificates
+  * If ``` SELF_SIGNED='y' ``` the certificates are automatically generated and self-signed using openSSL configuration
+  * If ``` SELF_SIGNED='n' ``` provide your own certificates in ```/opt/tvault```
+    * ```keystore.p12``` is the PKCS#12 store containing the private key and public certificate
+    * PKCS12 password must be stored within the environment variable ```$CERT_PASSWORD```
 
 You can configure your installation with combination of any of the Auth Backend and Storage Backend listed above.
 
