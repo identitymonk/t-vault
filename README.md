@@ -71,7 +71,8 @@ You can build T-Vault from source using build_vault.sh. There are two packaging 
 * Download source code (https://github.com/tmobile/t-vault).
 * Go to the parent directory of the source code tree and run the command <pre>./build_tvault.sh --build all --package tar</pre>
 * This will build both T-Vault API and user portal and generate tar file tvault_all.tar.gz
-* Run the command <pre>./install_tvault.sh</pre>to install and start T-Vault and all of the dependent services.
+* Run the command <pre>./install_tvault.sh</pre>to install T-Vault and all of the dependent services.
+* Run the command <pre> /tmp/vault.sh </pre> to run the vault
 
 
 #### Docker container based installation
@@ -81,7 +82,8 @@ You can build T-Vault from source using build_vault.sh. There are two packaging 
 * Download source code (https://github.com/tmobile/t-vault).
 * Go to the parent directory of the source code tree and run the command <pre>./build_tvault.sh --build all --package docker</pre>
 * This will build both T-Vault API and user portal and push the docker image to local docker hub
-* Run the command <pre>docker run --privileged -it -p 443:443 -p 8200:8200  your_tvault_docker_image_id /bin/bash</pre> to start cloud vault and all of the dependent services
+* Run the command <pre>docker run --privileged -it -p 443:443 -p 8200:8200  your_tvault_docker_image_id /bin/bash</pre>
+* Once in the container shell, run the command <pre> /tmp/vault.sh </pre> to run the vault
 
 
 ### How to access T-Vault Services
@@ -112,7 +114,7 @@ The default installation sets up few default users so that you can explore the t
 
    This is a Vault Admin user. By default this user is attached with policies to manage all the paths excepts for secret store mounts.  
    
- 3. testuser1/testuser1, testuser2/testuser2
+ 1. testuser1/testuser1, testuser2/testuser2
     
     These two testusers doesnt have any previleges by default. You can grant access to these users and try out the functionalities of T-Vault.  
 

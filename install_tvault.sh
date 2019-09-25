@@ -31,6 +31,3 @@ tar -zxf $TVAULT_TAR_NAME
 
 chmod +x /tmp/vault.sh
 chmod +x /tmp/parameter
-
-#./vault.sh -s silent
-./vault.sh

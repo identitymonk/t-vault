@@ -151,7 +151,7 @@ if [[ "$APPS_TO_BUILD" == "UI_ONLY"  || "$APPS_TO_BUILD" == "ALL" ]]; then
    rm -rf app
    echo "Completed removing the existing node_modules directory..."
 
-   sudo npm cache clean -f
+   sudo npm cache clean -fdocker
    npm install
    bower install --allow-root
    #gulp serve:live
