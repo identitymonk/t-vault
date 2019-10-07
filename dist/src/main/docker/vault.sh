@@ -293,10 +293,10 @@ _use_selfsigned=$SELF_SIGNED
 CERT_PASSWORD=""
 
 if [[ "$_use_selfsigned" == "n" ]]; then
-  echo " => Copy the tvault.crt, tvault.key and tvault.p12 file to $VHOME/certs"
-  echo -n " => Enter the password for the PKCS12 keystore:"; read CERT_PASSWORD;
+  echo " => Copy the tvault.crt, tvault.key to $VHOME/certs" # and tvault.p12 file to $VHOME/certs"
+  #echo -n " => Enter the password for the PKCS12 keystore:"; read CERT_PASSWORD;
 
-  if [[ ! -f $VHOME/certs/tvault.crt ||  ! -f $VHOME/certs/tvault.key  || ! -f $VHOME/certs/keystore.p12 ]]; then
+  if [[ ! -f $VHOME/certs/tvault.crt ||  ! -f $VHOME/certs/tvault.key ; then #|| ! -f $VHOME/certs/keystore.p12 ]]; then
     echo "Certificate file not found in $VHOME/certs. Exiting ..."
     exit 1
   else
