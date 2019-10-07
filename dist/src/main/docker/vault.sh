@@ -334,7 +334,7 @@ ln -sf $VHOME/hcorp/bin/tvault /etc/init.d/tvault
 
 export PATH=$PATH:$VHOME/hcorp/bin:$VHOME/api/bin
 echo "Path is $PATH"
-export VAULT_ADDR="https://127.0.0.1:8200"
+#export VAULT_ADDR="https://127.0.0.1:8200"
 export SSCRED_FILE_LOCATION="/opt/tvault/hcorp"
 
 #sudo setcap cap_ipc_lock=+ep $(readlink -f $(which vault)) 
