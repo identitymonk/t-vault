@@ -341,8 +341,8 @@ export SSCRED_FILE_LOCATION="/opt/tvault/hcorp"
 sudo setcap cap_ipc_lock=+ep $VHOME/hcorp/bin/vault
 #vault server -config=$VSERVERCONF >> $VLOG/tvault-vault-server.log &
 
-echo "Vault server starting... "
-service tvault start >> $INSTLOG
+#echo "Vault server starting... "
+#service tvault start >> $INSTLOG
 
 
 sleep 10s
