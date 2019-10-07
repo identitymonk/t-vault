@@ -296,7 +296,7 @@ if [[ "$_use_selfsigned" == "n" ]]; then
   echo " => Copy the tvault.crt, tvault.key to $VHOME/certs" # and tvault.p12 file to $VHOME/certs"
   #echo -n " => Enter the password for the PKCS12 keystore:"; read CERT_PASSWORD;
 
-  if [[ ! -f $VHOME/certs/tvault.crt ||  ! -f $VHOME/certs/tvault.key ; then #|| ! -f $VHOME/certs/keystore.p12 ]]; then
+  if [[ ! -f $VHOME/certs/tvault.crt ||  ! -f $VHOME/certs/tvault.key ]] ; then #|| ! -f $VHOME/certs/keystore.p12 ]]; then
     echo "Certificate file not found in $VHOME/certs. Exiting ..."
     exit 1
   else
@@ -523,7 +523,7 @@ API_CONF="$VHOME/api/bin/tvaultapi.conf"
 touch API_CONF
 echo "JAVA_OPTS=\"-DTVAULT-API-LOG-PATH=$VLOG/\"" >> $API_CONF
 echo "LOG_FOLDER=$VLOG" >> $API_CONF
-echo "RUN_ARGS=\"--vault.api.url=https://127.0.0.1:8200/v1 --selfservice.ssfilelocation=$SSCRED_FILE_LOCATION --vault.port=8200 --vault.auth.method=$AUTH_BACKEND --vault.ssl.verify=false --server.port=8443 --server.ssl.key-store=/opt/tvault/certs/tvault.p12 --server.ssl.keyStoreType=PKCS12 --server.ssl.key-store-password=$CERT_PASSWORD\"" >> $API_CONF
+echo "RUN_ARGS=\"--vault.api.url=$VAULT_ADDR/v1 --selfservice.ssfilelocation=$SSCRED_FILE_LOCATION --vault.port=8200 --vault.auth.method=$AUTH_BACKEND --vault.ssl.verify=false --server.port=8443 --server.ssl.key-store=/opt/tvault/certs/tvault.p12 --server.ssl.keyStoreType=PKCS12 --server.ssl.key-store-password=$CERT_PASSWORD\"" >> $API_CONF
 
 chmod +x $VHOME/api/bin/tvaultapi.jar
 chmod +x $VHOME/web/nginx/sbin/nginx
