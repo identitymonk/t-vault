@@ -51,11 +51,13 @@ case $BACKEND in
   *) echo Invalid option in Backend;;
 esac
 
-case $AUTH_MODE in
+case $AUTH_BACKEND in
      "LDAP")
-     if [[ -z $LDAP_URL || -z $LDAP_GROUP_ATTR_NAME || -z $LDAP_USR_ATTR_NAME || -z $USER_DN || -z $GROUP_DN || -z $BIND_DN || -z $BIND_DN_PASS|| -z $TLS_ENABLED ]]; then
-        echo 'one or more LDAP parameters are missing'
-        exit 1
+     if [[ $LDAP_ALREADY_CONFIGURED == "no" ]]; then
+     	if [[ -z $LDAP_URL || -z $LDAP_GROUP_ATTR_NAME || -z $LDAP_USR_ATTR_NAME || -z $USER_DN || -z $GROUP_DN || -z $BIND_DN || -z $BIND_DN_PASS|| -z $TLS_ENABLED ]]; then
+        	echo 'one or more LDAP parameters are missing'
+        	exit 1
+	fi
      fi
     ;;
 esac
