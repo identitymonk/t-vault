@@ -53,7 +53,7 @@ esac
 
 case $AUTH_BACKEND in
      "LDAP")
-     if [[ $LDAP_ALREADY_CONFIGURED == "no" ]]; then
+     if [[ $LDAP_ALREADY_CONFIGURED -ne "yes" ]]; then
      	if [[ -z $LDAP_URL || -z $LDAP_GROUP_ATTR_NAME || -z $LDAP_USR_ATTR_NAME || -z $USER_DN || -z $GROUP_DN || -z $BIND_DN || -z $BIND_DN_PASS|| -z $TLS_ENABLED ]]; then
         	echo 'one or more LDAP parameters are missing'
         	exit 1
@@ -351,26 +351,26 @@ n=0
 
 until [ $n -ge 10 ]
 do
-  initstat=$(curl -sfk https://127.0.0.1:8200/v1/sys/init)
+  initstat=$(curl -sfk $VAULT_ADDR/v1/sys/init)
   rval=$?
 
     if [[ "$rval" == "0" ]]; then
       break
     else
-      echo "Retrying \"https://127.0.0.1:8200/v1/sys/init\"  ...."
+      echo "Retrying \"$VAULT_ADDR/v1/sys/init\"  ...."
     fi
   n=$[$n+1]
   sleep 5
 done
 
-initstat=$(curl -sfk https://127.0.0.1:8200/v1/sys/init)
+initstat=$(curl -sfk $VAULT_ADDR/v1/sys/init)
 
 if [ $? -gt 0 ]; then
   echo "Vault service is not up, exiting."
   exit 1
 fi
 
-initstat=$(curl -sfk https://127.0.0.1:8200/v1/sys/init | grep "true")
+initstat=$(curl -sfk $VAULT_ADDR/v1/sys/init | grep "true")
 echo "Initstatus: $initstat"
 
 
@@ -433,13 +433,15 @@ if [[ -z "$initstat" ]]; then
   if [[ "$AUTH_BACKEND" == "ldap" ]]; then
      # LDAP...
      echo "Enabling/Configuring LDAP auth..."
-     vault auth enable ldap >> $INSTLOG
-     vault secrets tune -default-lease-ttl=30m /auth/ldap >> $INSTLOG
-     if [[ "$USE_UPNDOMAIN" == "yes" ]]; then
-        echo "Using UPN Domain:"
-        vault write auth/ldap/config url=$LDAP_URL  groupattr=$LDAP_GROUP_ATTR_NAME userattr=$LDAP_USR_ATTR_NAME  userdn=$USER_DN   groupdn=$GROUP_DN   insecure_tls=true starttls=$TLS_ENABLED upndomain=$UPN_DOMAIN_URL >> $INSTLOG
-     else 
-        vault write auth/ldap/config url=$LDAP_URL  groupattr=$LDAP_GROUP_ATTR_NAME userattr=$LDAP_USR_ATTR_NAME  userdn=$USER_DN   groupdn=$GROUP_DN   binddn="$BIND_DN" bindpass="$BIND_DN_PASS" insecure_tls=true starttls=$TLS_ENABLED >> $INSTLOG
+     if [[ $LDAP_ALREADY_CONFIGURED -ne "yes" ]]; then
+     	vault auth enable ldap >> $INSTLOG
+     	vault secrets tune -default-lease-ttl=30m /auth/ldap >> $INSTLOG
+     	if [[ "$USE_UPNDOMAIN" == "yes" ]]; then
+        	echo "Using UPN Domain:"
+        	vault write auth/ldap/config url=$LDAP_URL  groupattr=$LDAP_GROUP_ATTR_NAME userattr=$LDAP_USR_ATTR_NAME  userdn=$USER_DN   groupdn=$GROUP_DN   insecure_tls=true starttls=$TLS_ENABLED upndomain=$UPN_DOMAIN_URL >> $INSTLOG
+     	else 
+        	vault write auth/ldap/config url=$LDAP_URL  groupattr=$LDAP_GROUP_ATTR_NAME userattr=$LDAP_USR_ATTR_NAME  userdn=$USER_DN   groupdn=$GROUP_DN   binddn="$BIND_DN" bindpass="$BIND_DN_PASS" insecure_tls=true starttls=$TLS_ENABLED >> $INSTLOG
+	fi
      fi
 
      vault policy write safeadmin $VHOME/hcorp/conf/safeadmin.json >> $INSTLOG
